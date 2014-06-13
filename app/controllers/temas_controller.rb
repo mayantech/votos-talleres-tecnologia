@@ -1,28 +1,20 @@
 class TemasController < ApplicationController
   before_action :set_tema, only: [:show, :edit, :update, :destroy]
 
-  # GET /temas
-  # GET /temas.json
   def index
     @temas = Tema.all
   end
 
-  # GET /temas/1
-  # GET /temas/1.json
   def show
   end
 
-  # GET /temas/new
   def new
     @tema = Tema.new
   end
 
-  # GET /temas/1/edit
   def edit
   end
 
-  # POST /temas
-  # POST /temas.json
   def create
     @tema = Tema.new(tema_params)
 
@@ -37,8 +29,6 @@ class TemasController < ApplicationController
     end
   end
 
-  # PATCH/PUT /temas/1
-  # PATCH/PUT /temas/1.json
   def update
     respond_to do |format|
       if @tema.update(tema_params)
@@ -51,8 +41,6 @@ class TemasController < ApplicationController
     end
   end
 
-  # DELETE /temas/1
-  # DELETE /temas/1.json
   def destroy
     @tema.destroy
     respond_to do |format|
