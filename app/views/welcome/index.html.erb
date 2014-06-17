@@ -1,0 +1,19 @@
+<h1>Bienvenido al sistema para votaciones de charlas</h1>
+
+<p>Este es un aplicativo donde existen diferentes charlas para que tu puedas votar o sugerir temas de interes para la comunidad.
+
+La idea es que entre mas voten por el tema de tu eleccion, mas podran aprender a cerca de lo que tu necesitas y te gusta aprender.
+
+Todos los temas pueden ser votados negativa o positivamente, con eso podremos evaluar que temas no son del gusto de los participantes para irlos sacando de la lista de posibles cursos
+</p>
+
+<p>
+<% if current_user %>
+	<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+<% else %>
+	<%= link_to "Ya tengo una cuenta", user_session_path  %>
+	<%= link_to "Quiero tener una cuenta", new_user_registration_path %>
+<% end %>
+</p>
+
+<p><%= link_to 'Ver y Proponer temas', temas_path %></p>

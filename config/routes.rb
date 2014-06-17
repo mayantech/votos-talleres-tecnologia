@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
-  resources :temas
-  root 'temas#index'
+  devise_for :users
+  # get 'welcome/index'
+
+  resources :temas do
+    member do
+      post 'upvote'
+      post 'downvote'
+    end
+  end
+
+  root 'welcome#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

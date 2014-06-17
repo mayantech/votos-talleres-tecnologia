@@ -1,8 +1,28 @@
 class TemasController < ApplicationController
-  before_action :set_tema, only: [:show, :edit, :update, :destroy]
+  before_action :set_tema, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
+  before_action :authenticate_user!
+
+  def upvote
+    @tema.votes.create
+    redirect_to(temas_path)
+  end
+
+  def downvote
+    if @tema.votes.count > 0
+      @tema.votes.last.destroy
+      redirect_to(temas_path)
+    else
+      respond_to do |format|
+        format.html { redirect_to temas_path, notice: 'No puede darle un voto negativo' }
+      end
+    end
+
+  end
 
   def index
-    @temas = Tema.all
+    @temas =  Tema.connection.select_all("Select temas.id, temas.titulo, temas.descripcion, count(votes.tema_id) as votos, temas.active from temas left join votes on temas.id = votes.tema_id group by temas.id, temas.titulo, temas.descripcion, temas.active order by count(votes.tema_id) DESC")
+    # @temas = Tema.all
+    # Tema.joins(:votes).group(:tema_id).count # trae un
   end
 
   def show
@@ -13,6 +33,7 @@ class TemasController < ApplicationController
   end
 
   def edit
+
   end
 
   def create
@@ -20,7 +41,7 @@ class TemasController < ApplicationController
 
     respond_to do |format|
       if @tema.save
-        format.html { redirect_to @tema, notice: 'Tema was successfully created.' }
+        format.html { redirect_to temas_path, notice: 'Tema was successfully created.' }
         format.json { render :show, status: :created, location: @tema }
       else
         format.html { render :new }
@@ -59,4 +80,5 @@ class TemasController < ApplicationController
     def tema_params
       params.require(:tema).permit(:titulo, :descripcion)
     end
+
 end
