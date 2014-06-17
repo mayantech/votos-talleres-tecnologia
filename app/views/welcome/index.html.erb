@@ -1,4 +1,5 @@
-<h1>Bienvenido al sistema para votaciones de charlas</h1>
+<div class="jumbotron center">
+<h1>Sistema para votaciones de charlas</h1>
 
 <p>Este es un aplicativo donde existen diferentes charlas para que tu puedas votar o sugerir temas de interes para la comunidad.
 
@@ -9,11 +10,12 @@ Todos los temas pueden ser votados negativa o positivamente, con eso podremos ev
 
 <p>
 <% if current_user %>
-	<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+	tu estas firmado con <%= current_user.email %>, si no es tu cuenta dale -> <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-danger btn-lg" %>
 <% else %>
-	<%= link_to "Ya tengo una cuenta", user_session_path  %>
-	<%= link_to "Quiero tener una cuenta", new_user_registration_path %>
+	<%= link_to "Ya tengo una cuenta", user_session_path, class: "btn btn-primary btn-lg"  %>
+	<%= link_to "Quiero tener una cuenta", new_user_registration_path, class: "btn btn-warning btn-lg" %>
 <% end %>
 </p>
 
-<p><%= link_to 'Ver y Proponer temas', temas_path %></p>
+<p><%= link_to 'Ver y Proponer temas', temas_path, class: "btn btn-primary btn-lg" %></p>
+</div>

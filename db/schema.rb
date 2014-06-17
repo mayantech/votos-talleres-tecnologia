@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140617195333) do
+ActiveRecord::Schema.define(version: 20140617203735) do
 
   create_table "temas", force: true do |t|
     t.string   "titulo"
@@ -45,6 +45,8 @@ ActiveRecord::Schema.define(version: 20140617195333) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "favor"
+    t.integer  "contra"
   end
 
 end

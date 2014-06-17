@@ -3,24 +3,17 @@ class TemasController < ApplicationController
   before_action :authenticate_user!
 
   def upvote
-    @tema.votes.create
+    @tema.votes.create(tema_id: @tema, user_id: current_user.id, favor: 1, contra: 0)
     redirect_to(temas_path)
   end
 
   def downvote
-    if @tema.votes.count > 0
-      @tema.votes.last.destroy
-      redirect_to(temas_path)
-    else
-      respond_to do |format|
-        format.html { redirect_to temas_path, notice: 'No puede darle un voto negativo' }
-      end
-    end
-
+    @tema.votes.create(tema_id: @tema, user_id: current_user.id, favor: 0, contra: 1)
+    redirect_to(temas_path)
   end
 
   def index
-    @temas =  Tema.connection.select_all("Select temas.id, temas.titulo, temas.descripcion, count(votes.tema_id) as votos, temas.active from temas left join votes on temas.id = votes.tema_id group by temas.id, temas.titulo, temas.descripcion, temas.active order by count(votes.tema_id) DESC")
+    @temas =  Tema.connection.select_all("Select temas.id, temas.titulo, temas.descripcion, count(votes.tema_id) as votos, sum(votes.favor) favor, sum(votes.contra) contra, temas.active from temas left join votes on temas.id = votes.tema_id group by temas.id, temas.titulo, temas.descripcion, temas.active order by sum(votes.favor) DESC")
     # @temas = Tema.all
     # Tema.joins(:votes).group(:tema_id).count # trae un
   end

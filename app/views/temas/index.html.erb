@@ -1,10 +1,12 @@
-<h1>Listing temas</h1>
+<h1>Listado de temas  a seleccionar</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Titulo</th>
-      <th colspan="3"></th>
+      <th colspan="1"></th>
+      <th>Favor</th>
+      <th>Contra</th>
     </tr>
   </thead>
 
@@ -12,10 +14,16 @@
     <% @temas.each do |tema| %>
       <tr>
         <% if tema['active'] || admin? %>
-        <td><%= link_to tema['titulo'], tema_path(tema['id']) %></td>
-        <td><%= pluralize(tema['votos'], "voto") %></td>
-        <td><%= button_to '+1', upvote_tema_path(tema['id']), method: :post %></td>
-        <td><%= button_to '-1', downvote_tema_path(tema['id']), method: :post %></td>
+          <td><%= link_to tema['titulo'], tema_path(tema['id']) %></td>
+          <td><%= pluralize(tema['votos'], "voto") %></td>
+          <td><%= tema['favor'] %></td>
+          <td><%= tema['contra'] %></td>
+          <% if Vote.where(tema_id: tema['id'], user_id: current_user.id).blank? %>
+            <td>
+            <%= button_to '+1', upvote_tema_path(tema['id']), class: "btn btn-success btn-xs", method: :post %></td>
+            <td>
+            <%= button_to '-1', downvote_tema_path(tema['id']), class: "btn btn-danger btn-xs", method: :post %></td>
+          <% end %>
         <% end %>
       </tr>
     <% end %>
@@ -24,5 +32,5 @@
 
 <br>
 
-<%= link_to 'Proponer nuevo tema', new_tema_path %>
-<%= link_to 'Regresar Pagina Principal', root_path %>
+<%= link_to 'Proponer nuevo tema', new_tema_path, class: "btn btn-success btn-sm" %>
+<%= link_to 'Regresar Pagina Principal', root_path, class: "btn btn-info btn-sm" %>
